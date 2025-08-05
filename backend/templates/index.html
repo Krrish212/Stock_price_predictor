@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> Stock Summary</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body> 
+  <h1>Stock Summary</h1>
+
+  <form> 
+    <div class="search">
+      <label for="search-input" class="input-label"><b>Search Stock</b></label>
+      <input type="text" id="search-input" list="suggestions" placeholder="Enter stock symbol...">
+      <datalist id="suggestions"></datalist>
+      <datalist id="suggestions"></datalist>
+      <button type="submit" class="search-button">Get summary</button>
+    </div>
+  </form>
+
+  {% if summary %}
+  <div class="summary">
+    <h2>{{ summary.name }} ({{ summary.symbol }})</h2>
+    <p><strong>Sector:</strong> {{ summary.sector }}</p>
+    <p><strong>Industry:</strong> {{ summary.industry }}</p>
+    <p><strong>Market Cap:</strong> {{ summary.marketCap }}</p>
+    <p><strong>P/E Ratio:</strong> {{ summary.peRatio }}</p>
+    
+  </div>
+  {% endif %}
+
+  <script>
+    try{
+          document.querySelector("form").addEventListener("submit", function (e) {
+      e.preventDefault(); // Stop normal form submission
+
+      const ticker = document.getElementById("search-input").value.trim();
+      if (ticker === "") return;
+
+      // Redirect to the Flask route
+      window.location.href = `/summary/${ticker}`;
+    });
+    } catch (error) {
+      console.error("Error in form submission, PLease enter valid ticker.", error);
+    }
+
+  </script>
+
+
+  <script>
+    const searchInput = document.getElementById("search-input");
+
+    // Debounce function
+    function debounce(func, delay) {
+      let timeout;
+      return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+      };
+    }
+
+    searchInput.addEventListener("input", debounce(function () {
+      const query = searchInput.value.trim();
+      if (query === "") {
+        document.getElementById("suggestions").innerHTML = "";
+        return;
+      }
+      fetch(`/auto_complete?query=${query}`)
+        .then(response => response.json())
+        .then(data => {
+          const dataList = document.getElementById("suggestions");
+          dataList.innerHTML = ""; // Clear previous suggestions
+          data.forEach(item => {
+            const option = document.createElement("option");
+            option.value = item.ticker;
+            option.textContent = `${item.ticker} - ${item.name}`;
+            dataList.appendChild(option);
+          });
+        })
+        .catch(error => {
+          console.error("Error fetching autocomplete suggestions:", error);
+          document.getElementById("suggestions").innerHTML = ""; // Clear the datalist on error
+        });
+    }, 300)); // 300ms debounce delay
+  </script>
+
+
+</body>
+</html>
+
+

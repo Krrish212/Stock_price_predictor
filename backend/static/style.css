@@ -1,0 +1,74 @@
+
+
+.search {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 800px; /* increase for wider bar */
+  width: 40%;
+  margin: 20px auto;
+  padding: 15px;
+  border-radius: 40px;
+  background-color: #e7e7e7;
+  gap: 15px;
+}
+
+.search:hover {
+  background-color: #e0e0e0; /* Slightly darker on hover */
+}   
+
+.search:focus-within {
+  box-shadow: 0 0 10px rgba(60, 211, 105, 0.5); /* Green shadow on focus */
+}
+
+.icon{
+  color: #3ece69;
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.input-label {
+  font-size: 16px;
+  font-family: 'Lexend', sans-serif;
+  color: #333333;
+  white-space: nowrap;
+  margin-right: 10px;
+}
+
+.search-input {
+  flex: 1; /* This makes the input expand as much as possible */
+  padding: 10px 12px;
+  font-size: 16px;
+  font-family: 'Lexend', sans-serif;
+  color: #333333;
+  background-color: white;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  min-width: 20px;
+}
+
+.search-button {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-family: 'Lexend', sans-serif;
+  color: #ffffff;
+  background-color: #3cd369;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.summary{
+  font-size: 16px;
+  font-family: 'Lexend', sans-serif;
+  color: #333333;
+  margin-top: 10px;
+  text-align: center; 
+  max-width: 800px; /* increase for wider summary */
+  width: 40%;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);   
+}
