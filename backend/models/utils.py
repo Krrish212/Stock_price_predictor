@@ -4,8 +4,9 @@ from typing import List, Tuple
 
 import torch
 import numpy as np
+import matplotlib
+matplotlib.use("Agg")   
 import matplotlib.pyplot as plt
-from matplotlib.pyplot import figure
 
 try:
     from alpha_vantage.timeseries import TimeSeries
@@ -110,7 +111,7 @@ def prepare_data_y(x: np.ndarray, window_size: int) -> np.ndarray:
 # Plotting helpers (define-only; call from training/inference code)
 # -----------------------------
 
-def plot_series(dates: List[str], prices: np.ndarray, cfg=config, title: str = "Daily close prices") -> None:
+def plot_series(dates: List[str], prices: np.ndarray, cfg=config, title: str = "Daily close prices", save_path=None, show=True) -> None:
     fig = figure(figsize=(25, 5), dpi=80)
     fig.patch.set_facecolor((1.0, 1.0, 1.0))
     plt.plot(dates, prices, label="Prices", color=cfg["plots"]["color_actual"])  # type: ignore
@@ -119,15 +120,24 @@ def plot_series(dates: List[str], prices: np.ndarray, cfg=config, title: str = "
     plt.xticks(x, xticks, rotation='vertical')
     plt.title(title)
     plt.grid(visible=True, which='major', axis='y', linestyle='--')
-    plt.legend()
-    plt.show()
+    plt.tight_layout()
+    if save_path:
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+        plt.savefig(save_path, bbox_inches="tight")
+        plt.close(fig)
+    elif show:
+        plt.show()
+    else:
+        plt.close(fig)
 
 
 def plot_train_val(dates: List[str],
                    y_train_plot: np.ndarray,
                    y_val_plot: np.ndarray,
                    cfg=config,
-                   title: str = "Training vs validation") -> None:
+                   title: str = "Training vs validation",
+                   save_path=None,
+                   show = True) -> None:
     fig = figure(figsize=(25, 5), dpi=80)
     fig.patch.set_facecolor((1.0, 1.0, 1.0))
     plt.plot(dates, y_train_plot, label="Prices (train)", color=cfg["plots"]["color_train"])  # type: ignore
@@ -138,14 +148,25 @@ def plot_train_val(dates: List[str],
     plt.title(title)
     plt.grid(visible=True, which='major', axis='y', linestyle='--')
     plt.legend()
-    plt.show()
+    plt.tight_layout()
+    if save_path:
+        import os
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+        plt.savefig(save_path, bbox_inches="tight")
+        plt.close(fig)
+    elif show:
+        plt.show()
+    else:
+        plt.close(fig)
 
 
 def plot_predictions_zoom(dates_subset: List[str],
                           actual_val: np.ndarray,
                           pred_val: np.ndarray,
                           cfg=config,
-                          title: str = "Zoom in on predicted vs actual (validation)") -> None:
+                          title: str = "Zoom in on predicted vs actual (validation)",
+                          save_path = None,
+                          show = True) -> None:
     fig = figure(figsize=(25, 5), dpi=80)
     fig.patch.set_facecolor((1.0, 1.0, 1.0))
     plt.plot(dates_subset, actual_val, label="Actual prices", color=cfg["plots"]["color_actual"])  # type: ignore
@@ -153,7 +174,16 @@ def plot_predictions_zoom(dates_subset: List[str],
     plt.title(title)
     plt.grid(visible=True, which='major', axis='y', linestyle='--')
     plt.legend()
-    plt.show()
+    plt.tight_layout()
+    if save_path:
+        import os
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+        plt.savefig(save_path, bbox_inches="tight")
+        plt.close(fig)
+    elif show:
+        plt.show()
+    else:
+        plt.close(fig)
 
 
 def plot_next_day_prediction(plot_dates: List[str],
@@ -161,7 +191,9 @@ def plot_next_day_prediction(plot_dates: List[str],
                              pred_val: np.ndarray,
                              next_day_pred: float,
                              cfg=config,
-                             title: str = "Predicting the next trading day close") -> None:
+                             title: str = "Predicting the next trading day close",
+                             save_path = None,
+                             show = True) -> None:
     fig = figure(figsize=(25, 5), dpi=80)
     fig.patch.set_facecolor((1.0, 1.0, 1.0))
     plt.plot(plot_dates, actual_val, label="Actual prices", marker=".", markersize=10, color=cfg["plots"]["color_actual"])  # type: ignore
@@ -170,7 +202,16 @@ def plot_next_day_prediction(plot_dates: List[str],
     plt.title(title)
     plt.grid(visible=True, which='major', axis='y', linestyle='--')
     plt.legend()
-    plt.show()
+    plt.tight_layout()
+    if save_path:
+        import os
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+        plt.savefig(save_path, bbox_inches="tight")
+        plt.close(fig)
+    elif show:
+        plt.show()
+    else:
+        plt.close(fig)
 
 
 __all__ = [
