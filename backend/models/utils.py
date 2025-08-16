@@ -2,6 +2,7 @@
 import os
 from typing import List, Tuple
 
+import torch
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
@@ -18,12 +19,12 @@ except Exception:
 config = {
     "alpha_vantage": {
         "key": os.getenv("ALPHAVANTAGE_API_KEY", "YOUR_API_KEY"),
-        "symbol": os.getenv("SYMBOL", "IBM"),
+        "symbol": os.getenv("SYMBOL", "AAPL"),
         "outputsize": "full",
         "key_close": "4. close",
     },
     "data": {
-        "window_size": 20,
+        "window_size": 30,
         "train_split_size": 0.80,
     },
     "plots": {
@@ -40,12 +41,13 @@ config = {
         "num_lstm_layers": 2,
         "lstm_size": 32,
         "dropout": 0.2,
+        "use_attention": True,
     },
     "training": {
-        "device": "cpu",
+        "device": "cuda" if torch.cuda.is_available() else "cpu",
         "batch_size": 64,
-        "num_epoch": 100,
-        "learning_rate": 0.01,
+        "num_epoch": 70,
+        "learning_rate": 0.001,
         "scheduler_step_size": 30,
     },
 }
