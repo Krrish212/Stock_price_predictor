@@ -31,6 +31,34 @@
   </div>
   {% endif %}
 
+  {% if plots %}
+  <div class="summary">
+    {% if next_day %}
+      <p><strong>Next-day predicted close:</strong> {{ "%.2f"|format(next_day) }}</p>
+    {% endif %}
+
+    <div>
+      <h3>Price history</h3>
+      <img src="{{ plots.series }}" alt="Series" style="max-width:100%;height:auto;">
+    </div>
+
+    <div>
+      <h3>Train vs Validation</h3>
+      <img src="{{ plots.trainval }}" alt="Train vs Val" style="max-width:100%;height:auto;">
+    </div>
+
+    <div>
+      <h3>Zoomed Validation</h3>
+      <img src="{{ plots.zoom }}" alt="Zoom" style="max-width:100%;height:auto;">
+    </div>
+
+    <div>
+      <h3>Next-Day Prediction</h3>
+      <img src="{{ plots.next }}" alt="Next Day" style="max-width:100%;height:auto;">
+    </div>
+  </div>
+{% endif %}
+
   <script>
     try{
           document.querySelector("form").addEventListener("submit", function (e) {
