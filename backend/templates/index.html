@@ -33,26 +33,29 @@
 
   {% if plots %}
   <div class="summary">
-    {% if next_day %}
-      <p><strong>Next-day predicted close:</strong> {{ "%.2f"|format(next_day) }}</p>
-    {% endif %}
+    
+  {% if next_day %}
+    <div class="next-day-box">
+      <p>Next-day predicted close: <strong>{{ "%.2f"|format(next_day) }}</strong></p>
+    </div>
+  {% endif %}
 
-    <div>
+    <div id="price-history">
       <h3>Price history</h3>
       <img src="{{ plots.series }}" alt="Series" style="max-width:100%;height:auto;">
     </div>
 
-    <div>
+    <div id="train_vs_validation">
       <h3>Train vs Validation</h3>
       <img src="{{ plots.trainval }}" alt="Train vs Val" style="max-width:100%;height:auto;">
     </div>
 
-    <div>
+    <div id="zoomed_validation">
       <h3>Zoomed Validation</h3>
       <img src="{{ plots.zoom }}" alt="Zoom" style="max-width:100%;height:auto;">
     </div>
 
-    <div>
+    <div id="next_day_prediction">
       <h3>Next-Day Prediction</h3>
       <img src="{{ plots.next }}" alt="Next Day" style="max-width:100%;height:auto;">
     </div>
