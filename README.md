@@ -1,16 +1,19 @@
-**📈 Stock Price Prediction Web App**
+# 📈 Stock Price Prediction Web App  
 
-A full-stack machine learning project that predicts future stock prices using an LSTM neural network and displays results in a simple Flask web interface.
+A full-stack machine learning project that predicts future stock prices using an **LSTM neural network** and displays results in a simple **Flask web interface**.  
 
-The project integrates:
-	•	Data ingestion from Alpha Vantage API
-	•	Data preprocessing and normalization
-	•	LSTM model training in PyTorch
-	•	Visualization of price history, training/validation splits, loss curves, and predictions
-	•	Frontend search bar for stock ticker symbols with results and plots served via Flask
+The project integrates:  
+- 📥 Data ingestion from **Alpha Vantage API**  
+- 🧹 Data preprocessing and normalization  
+- 🧠 LSTM model training in **PyTorch**  
+- 📊 Visualization of price history, training/validation splits, loss curves, and predictions  
+- 🌐 Frontend search bar for stock ticker symbols with results and plots served via **Flask**  
 
-⸻
-🗂 Project Structure
+---
+
+## 🗂 Project Structure  
+
+```bash
 STOCK_PRICE_PREDICTOR/
 ├─ backend/
 │  ├─ app.py                # Flask app (routes for training, summary, autocomplete)
@@ -26,7 +29,9 @@ STOCK_PRICE_PREDICTOR/
 │     └─ index.html         # Jinja2 HTML template (search form + summary + charts)
 ├─ requirements.txt          # Python dependencies
 ├─ README.md                 # This file
-└─ project_log.md            # (optional) development notes
+└─ project_log.md            # Development notes
+```
+
 
 🚀 Getting Started
 1. Clone the repo
@@ -71,14 +76,32 @@ All model, data, and training hyperparameters are stored in backend/models/confi
     "learning_rate": 0.01,
 }
 
-Code organization
-	•	utils.py: data download, preprocessing, normalization, plotting (saves .png to static/plots/)
-	•	lstm_model.py: PyTorch LSTM class, training loop (run_epoch), training wrapper (train_model), and prediction function (predict_next)
-	•	app.py: Flask routes:
-	•	/ → index page with search bar
-	•	/summary/<ticker> → trains model for ticker, generates plots, renders template
-	•	/auto_complete → optional ticker search suggestions
+## 🗂 Code Organization
 
+- `backend/models/utils.py`
+  - Data download (Alpha Vantage)
+  - Preprocessing (windowing, splits)
+  - Normalization (`Normalizer`)
+  - Datasets & DataLoaders (`TimeSeriesDataset`)
+  - Plot helpers (save `.png` files to `static/plots/`)
+
+- `backend/models/lstm_model.py`
+  - `LSTMModel` (PyTorch)
+  - `run_epoch` (train/eval step)
+  - `train_model` / `train_model_for_symbol` (training orchestration)
+  - `predict_next` (single-step inference)
+
+- `backend/app.py` (Flask routes)
+  - `GET /` — index page with search bar
+  - `GET /summary/<ticker>` — trains/loads model, generates plots, renders template
+  - `GET /auto_complete?query=...` — optional ticker search suggestions
+
+- `backend/templates/index.html`
+  - Jinja2 template that displays summary + plots (`<img src="/static/plots/...">`)
+
+- `backend/static/`
+  - `style.css` — frontend styling
+  - `plots/` — **generated images only** (saved by plotting helpers)
 
  📦 Requirements
 
