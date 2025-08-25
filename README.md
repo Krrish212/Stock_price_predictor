@@ -1,4 +1,4 @@
-📈 Stock Price Prediction Web App
+**📈 Stock Price Prediction Web App**
 
 A full-stack machine learning project that predicts future stock prices using an LSTM neural network and displays results in a simple Flask web interface.
 
